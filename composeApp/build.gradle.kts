@@ -1,3 +1,4 @@
+import org.gradle.api.JavaVersion.VERSION_11
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -28,7 +29,7 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -40,7 +41,7 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -58,7 +59,8 @@ kotlin {
             api(libs.koin.core)
 
             implementation(libs.bundles.ktor)
-            implementation(libs.bundles.coil)
+            implementation(libs.landscapist.coil3)
+            implementation(libs.landscapist.placeholder)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -92,8 +94,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = VERSION_11
+        targetCompatibility = VERSION_11
+    }
+    buildFeatures{
+        compose = true
+    }
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
     }
 }
 
