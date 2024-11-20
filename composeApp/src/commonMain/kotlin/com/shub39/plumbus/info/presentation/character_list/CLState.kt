@@ -1,6 +1,7 @@
 package com.shub39.plumbus.info.presentation.character_list
 
 import com.shub39.plumbus.core.presentation.UiText
+import com.shub39.plumbus.info.domain.Character
 
 // state for character list
 data class CLState(

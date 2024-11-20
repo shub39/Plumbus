@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <string name="search_hint">Search</string>
+    <string name="search_results">Search Results</string>
+    <string name="favorites">Favorites</string>
+    <string name="no_results">No Results</string>
+    <string name="no_favorites">No Favorites</string>
 </resources>
