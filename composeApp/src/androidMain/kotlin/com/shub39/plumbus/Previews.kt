@@ -14,14 +14,14 @@ private fun Preview() {
 
     CLScreen(
         state = CLState(
-            searchResults = (1L..100L).map {
+            searchResults = (1..100).map {
                 Character(
                     id = it,
                     name = "Character $it",
-                    status = if (it % 2L == 0L) "Alive" else "Dead",
+                    status = if (it % 2 == 0) "Alive" else "Dead",
                     type = "type $it",
                     species = "Whatever",
-                    gender = if (it % 2L == 0L) "Male" else "Female",
+                    gender = if (it % 2 == 0) "Male" else "Female",
                     imageUrl = "",
                     episodes = emptyList(),
                     url = "",

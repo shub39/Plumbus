@@ -2,7 +2,7 @@ package com.shub39.plumbus.info.domain
 
 // character data class
 data class Character(
-    val id: Long,
+    val id: Int,
     val name: String,
     val status: String,
     val type: String,
