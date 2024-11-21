@@ -1,6 +1,6 @@
 package com.shub39.plumbus.info.presentation.location_list
 
-import com.shub39.plumbus.info.domain.Location
+import com.shub39.plumbus.info.domain.character.Location
 
 // all location actions
 sealed interface LLAction {

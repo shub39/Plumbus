@@ -1,6 +1,6 @@
 package com.shub39.plumbus.info.presentation.episode_list
 
-import com.shub39.plumbus.info.domain.Episode
+import com.shub39.plumbus.info.domain.character.Episode
 
 // all episode list actions
 sealed interface ELAction {

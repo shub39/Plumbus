@@ -1,7 +1,7 @@
 package com.shub39.plumbus.info.presentation.location_list
 
 import com.shub39.plumbus.core.presentation.UiText
-import com.shub39.plumbus.info.domain.Location
+import com.shub39.plumbus.info.domain.character.Location
 
 // location list state
 data class LLState (

@@ -2,7 +2,6 @@ package com.shub39.plumbus.info.presentation.character_list.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -21,17 +20,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.shub39.plumbus.info.domain.Character
-import com.shub39.plumbus.info.domain.CharacterStatus
+import com.shub39.plumbus.info.domain.character.Character
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
+import com.skydoves.landscapist.placeholder.shimmer.ShimmerContainer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 // list entry item for each character
@@ -48,7 +49,7 @@ fun CLItem(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth()
-                .height(IntrinsicSize.Min),
+                .height(100.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -62,7 +63,7 @@ fun CLItem(
                     +ShimmerPlugin(
                         Shimmer.Flash(
                             baseColor = MaterialTheme.colorScheme.surface,
-                            highlightColor = MaterialTheme.colorScheme.onSurface
+                            highlightColor = MaterialTheme.colorScheme.primary
                         )
                     )
                 },
@@ -72,11 +73,21 @@ fun CLItem(
                         contentDescription = null,
                     )
                 },
+                loading = {
+                    ShimmerContainer(
+                        modifier = Modifier.align(Alignment.Center),
+                        shimmer = Shimmer.Flash(
+                            baseColor = MaterialTheme.colorScheme.surface,
+                            highlightColor = MaterialTheme.colorScheme.primary
+                        )
+                    )
+                },
                 modifier = Modifier
                     .aspectRatio(
                         ratio = 1f,
                         matchHeightConstraintsFirst = true
-                    ),
+                    )
+                    .clip(RoundedCornerShape(16.dp)),
                 previewPlaceholder = rememberVectorPainter(Icons.Default.Person)
             )
 
@@ -96,7 +107,7 @@ fun CLItem(
                 )
 
                 Text(
-                    text = character.type,
+                    text = character.species,
                     style = MaterialTheme.typography.bodyLarge,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -107,10 +118,10 @@ fun CLItem(
                     style = MaterialTheme.typography.bodyLarge,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    color = when (character.status) {
-                        CharacterStatus.DEAD.name -> MaterialTheme.colorScheme.error
-                        CharacterStatus.ALIVE.name -> MaterialTheme.colorScheme.primary
-                        else -> MaterialTheme.colorScheme.primary
+                    color = when (character.status.lowercase()){
+                        "dead" -> MaterialTheme.colorScheme.error
+                        "alive" -> MaterialTheme.colorScheme.primary
+                        else -> Color.Gray
                     }
                 )
             }

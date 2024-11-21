@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.domain
+package com.shub39.plumbus.info.domain.character
 
 // episode data class
 data class Episode(

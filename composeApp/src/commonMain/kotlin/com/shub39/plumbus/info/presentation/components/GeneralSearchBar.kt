@@ -58,7 +58,7 @@ fun GeneralSearchBar(
                 visible = searchQuery.isNotBlank()
             ) {
                 IconButton(
-                    onClick = { onSearchQueryChange(searchQuery) }
+                    onClick = { onSearchQueryChange("") }
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,

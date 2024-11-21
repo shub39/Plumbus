@@ -2,39 +2,119 @@ package com.shub39.plumbus.info.presentation.character_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shub39.plumbus.core.domain.onError
+import com.shub39.plumbus.core.domain.onSuccess
+import com.shub39.plumbus.core.presentation.toUiText
+import com.shub39.plumbus.info.domain.character.Character
+import com.shub39.plumbus.info.domain.character.CharacterRepo
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 // character list view model
-class CLViewModel: ViewModel() {
+class CLViewModel(
+    private val dataSource: CharacterRepo
+) : ViewModel() {
+
+    private var cachedCharacters: List<Character> = emptyList()
+    private var searchJob: Job? = null
 
     private val _state = MutableStateFlow(CLState())
-    val state = _state.asStateFlow()
+    val state = _state
+        .onStart {
+            if (cachedCharacters.isEmpty()) {
+                observeSearch()
+            }
+        }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            _state.value
+        )
 
     fun action(action: CLAction) {
-        viewModelScope.launch {
-            when(action) {
-                is CLAction.OnCharacterClick -> {}
+        when (action) {
+            is CLAction.OnCharacterClick -> {}
 
-                is CLAction.OnSearchQueryChange -> {
-                    _state.update {
-                        it.copy(
-                            searchQuery = action.query
-                        )
-                    }
+            is CLAction.OnSearchQueryChange -> {
+                _state.update {
+                    it.copy(
+                        searchQuery = action.query
+                    )
                 }
+            }
 
-                is CLAction.OnTabSelected -> {
-                    _state.update {
-                        it.copy(
-                            selectIndex = action.index
-                        )
-                    }
+            is CLAction.OnTabSelected -> {
+                _state.update {
+                    it.copy(
+                        selectIndex = action.index
+                    )
                 }
             }
         }
+    }
+
+    @OptIn(FlowPreview::class)
+    private fun observeSearch() {
+        state
+            .map { it.searchQuery }
+            .distinctUntilChanged()
+            .debounce(500L)
+            .onEach { query ->
+                when {
+                    query.isBlank() -> {
+                        _state.update {
+                            it.copy(
+                                errorMessage = null,
+                                searchResults = cachedCharacters
+                            )
+                        }
+                    }
+
+                    query.length >= 2 -> {
+                        searchJob?.cancel()
+                        searchJob = searchCharacter(query)
+                    }
+                }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun searchCharacter(query: String) = viewModelScope.launch {
+        _state.update {
+            it.copy(isLoading = true)
+        }
+
+        dataSource
+            .searchCharacter(query)
+            .onSuccess { searchResults ->
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = null,
+                        searchResults = searchResults
+                    )
+                }
+            }
+            .onError { searchError ->
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        searchResults = emptyList(),
+                        errorMessage = searchError.toUiText()
+                    )
+                }
+            }
     }
 
 }

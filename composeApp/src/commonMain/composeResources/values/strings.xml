@@ -5,4 +5,12 @@
     <string name="favorites">Favorites</string>
     <string name="no_results">No Results</string>
     <string name="no_favorites">No Favorites</string>
+    <string name="disk_full">No Space Left!</string>
+    <string name="unknown">Unknown Error!</string>
+    <string name="too_many_requests">Too many Requests!</string>
+    <string name="no_internet">No Internet!</string>
+    <string name="server_error">Server Error!</string>
+    <string name="character">Character</string>
+    <string name="episodes">Episodes</string>
+    <string name="locations">Locations</string>
 </resources>

@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.shub39.plumbus.info.domain.character.Character
 import com.shub39.plumbus.info.presentation.character_list.component.CharacterList
 import com.shub39.plumbus.info.presentation.components.GeneralSearchBar
 import org.jetbrains.compose.resources.stringResource
@@ -38,7 +39,7 @@ import plumbus.composeapp.generated.resources.search_results
 fun CLScreen(
     state: CLState,
     onAction: (CLAction) -> Unit,
-    onNavigate: () -> Unit
+    onNavigate: (Character) -> Unit
 ) {
     val pagerState = rememberPagerState { 2 }
     val searchListState = rememberLazyListState()
@@ -139,7 +140,8 @@ fun CLScreen(
                                                 text = state.errorMessage.asString(),
                                                 textAlign = TextAlign.Center,
                                                 color = MaterialTheme.colorScheme.error,
-                                                style = MaterialTheme.typography.headlineSmall
+                                                style = MaterialTheme.typography.headlineSmall,
+                                                modifier = Modifier.align(Alignment.Center)
                                             )
                                         }
 
@@ -147,7 +149,8 @@ fun CLScreen(
                                             Text(
                                                 text = stringResource(Res.string.no_results),
                                                 textAlign = TextAlign.Center,
-                                                style = MaterialTheme.typography.headlineSmall
+                                                style = MaterialTheme.typography.headlineSmall,
+                                                modifier = Modifier.align(Alignment.Center)
                                             )
                                         }
 
@@ -155,11 +158,8 @@ fun CLScreen(
                                             CharacterList(
                                                 characters = state.searchResults,
                                                 onCharacterClick = {
-                                                    onAction(
-                                                        CLAction.OnCharacterClick(
-                                                            it
-                                                        )
-                                                    )
+                                                    onAction(CLAction.OnCharacterClick(it))
+                                                    onNavigate(it)
                                                 },
                                                 modifier = Modifier.fillMaxSize(),
                                                 lazyListState = searchListState
@@ -174,12 +174,16 @@ fun CLScreen(
                                     Text(
                                         text = stringResource(Res.string.no_favorites),
                                         textAlign = TextAlign.Center,
-                                        style = MaterialTheme.typography.headlineSmall
+                                        style = MaterialTheme.typography.headlineSmall,
+                                        modifier = Modifier.align(Alignment.Center)
                                     )
                                 } else {
                                     CharacterList(
                                         characters = state.favorites,
-                                        onCharacterClick = { onAction(CLAction.OnCharacterClick(it)) },
+                                        onCharacterClick = {
+                                            onAction(CLAction.OnCharacterClick(it))
+                                            onNavigate(it)
+                                        },
                                         modifier = Modifier.fillMaxSize(),
                                         lazyListState = favoritesListState
                                     )

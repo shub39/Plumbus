@@ -1,7 +1,7 @@
 package com.shub39.plumbus.info.presentation.episode_list
 
 import com.shub39.plumbus.core.presentation.UiText
-import com.shub39.plumbus.info.domain.Episode
+import com.shub39.plumbus.info.domain.character.Episode
 
 // episode list screen
 data class ELState (
