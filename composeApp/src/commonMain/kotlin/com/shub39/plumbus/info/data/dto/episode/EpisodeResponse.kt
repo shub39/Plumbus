@@ -1,10 +1,10 @@
-package com.shub39.plumbus.info.data.dto.character
+package com.shub39.plumbus.info.data.dto.episode
 
 import com.shub39.plumbus.info.data.dto.Info
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CharacterResponse(
+data class EpisodeResponse(
     val info: Info,
-    val results: List<CharacterDto>
+    val results: List<EpisodeDto>
 )

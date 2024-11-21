@@ -14,7 +14,9 @@ import androidx.navigation.toRoute
 import com.shub39.plumbus.core.presentation.PlumbusTheme
 import com.shub39.plumbus.info.presentation.character_list.CLScreen
 import com.shub39.plumbus.info.presentation.character_list.CLViewModel
+import com.shub39.plumbus.info.presentation.episode_list.ELScreen
 import com.shub39.plumbus.info.presentation.episode_list.ELViewModel
+import com.shub39.plumbus.info.presentation.location_list.LLScreen
 import com.shub39.plumbus.info.presentation.location_list.LLViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -59,11 +61,27 @@ fun App(
                     }
 
                     composable<Route.EpisodeList> {
-                        Text("Episode List")
+                        ELScreen(
+                            state = elState,
+                            action = elvm::action,
+                            onNavigate = { episode ->
+                                navController.navigate(Route.EpisodeDetail(episode.id)) {
+                                    launchSingleTop = true
+                                }
+                            }
+                        )
                     }
 
                     composable<Route.LocationList> {
-                        Text("Location List")
+                        LLScreen(
+                            state = llState,
+                            action = llvm::action,
+                            onNavigate = { location ->
+                                navController.navigate(Route.LocationDetail(location.id)) {
+                                    launchSingleTop = true
+                                }
+                            }
+                        )
                     }
 
                     composable<Route.CharacterDetail> { entry ->
@@ -72,12 +90,16 @@ fun App(
                         Text("Character Detail ${args.id}")
                     }
 
-                    composable<Route.EpisodeDetail> {
-                        Text("Episode Detail")
+                    composable<Route.EpisodeDetail> { entry ->
+                        val args = entry.toRoute<Route.EpisodeDetail>()
+
+                        Text("Episode Detail ${args.id}")
                     }
 
-                    composable<Route.LocationDetail> {
-                        Text("Location Detail")
+                    composable<Route.LocationDetail> { entry ->
+                        val args = entry.toRoute<Route.LocationDetail>()
+
+                        Text("Location Detail ${args.id}")
                     }
                 }
             }

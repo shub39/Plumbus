@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.presentation.character_list.component
+package com.shub39.plumbus.info.presentation.episode_list.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,13 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.shub39.plumbus.info.domain.Character
+import com.shub39.plumbus.info.domain.Episode
 
-// characters list
 @Composable
-fun CharacterList(
-    characters: List<Character>,
-    onCharacterClick: (Character) -> Unit,
+fun EpisodeList(
+    episodes: List<Episode>,
+    onEpisodeClick: (Episode) -> Unit,
     lazyListState: LazyListState = rememberLazyListState(),
     modifier: Modifier = Modifier,
 ) {
@@ -29,10 +28,10 @@ fun CharacterList(
         horizontalAlignment = Alignment.CenterHorizontally,
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
-        items(characters, key = { it.id }) { character ->
-            CLItem(
-                character = character,
-                onClick = { onCharacterClick(character) },
+        items(episodes, key = { it.id }) { episode ->
+            ELItem(
+                episode = episode,
+                onClick = { onEpisodeClick(episode) }
             )
         }
 

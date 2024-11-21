@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.presentation.character_list
+package com.shub39.plumbus.info.presentation.location_list
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,9 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.shub39.plumbus.info.domain.Character
-import com.shub39.plumbus.info.presentation.character_list.component.CharacterList
+import com.shub39.plumbus.info.domain.Location
 import com.shub39.plumbus.info.presentation.components.GeneralSearchBar
+import com.shub39.plumbus.info.presentation.location_list.component.LocationsList
 import org.jetbrains.compose.resources.stringResource
 import plumbus.composeapp.generated.resources.Res
 import plumbus.composeapp.generated.resources.no_results
@@ -33,12 +33,11 @@ import plumbus.composeapp.generated.resources.no_saved
 import plumbus.composeapp.generated.resources.saved
 import plumbus.composeapp.generated.resources.search_results
 
-// character list screen
 @Composable
-fun CLScreen(
-    state: CLState,
-    onAction: (CLAction) -> Unit,
-    onNavigate: (Character) -> Unit
+fun LLScreen(
+    state: LLState,
+    action: (LLAction) -> Unit,
+    onNavigate: (Location) -> Unit
 ) {
     val pagerState = rememberPagerState { 2 }
     val searchListState = rememberLazyListState()
@@ -54,7 +53,7 @@ fun CLScreen(
     }
 
     LaunchedEffect(pagerState.currentPage) {
-        onAction(CLAction.OnTabSelected(pagerState.currentPage))
+        action(LLAction.OnTabSelected(pagerState.currentPage))
     }
 
     Column(
@@ -65,7 +64,7 @@ fun CLScreen(
         GeneralSearchBar(
             searchQuery = state.searchQuery,
             onSearchQueryChange = {
-                onAction(CLAction.OnSearchQueryChange(it))
+                action(LLAction.OnSearchQueryChange(it))
             },
             onImeAction = {
                 keyboardController?.hide()
@@ -97,7 +96,7 @@ fun CLScreen(
                 ) {
                     Tab(
                         selected = state.selectIndex == 0,
-                        onClick = { onAction(CLAction.OnTabSelected(0)) },
+                        onClick = { action(LLAction.OnTabSelected(0)) },
                         modifier = Modifier.weight(1f)
                     ) {
                         Text(
@@ -108,7 +107,7 @@ fun CLScreen(
 
                     Tab(
                         selected = state.selectIndex == 1,
-                        onClick = { onAction(CLAction.OnTabSelected(1)) },
+                        onClick = { action(LLAction.OnTabSelected(1)) },
                         modifier = Modifier.weight(1f)
                     ) {
                         Text(
@@ -153,14 +152,13 @@ fun CLScreen(
                                         }
 
                                         else -> {
-                                            CharacterList(
-                                                characters = state.searchResults,
-                                                onCharacterClick = {
-                                                    onAction(CLAction.OnCharacterClick(it))
+                                            LocationsList(
+                                                locations = state.searchResults,
+                                                lazyListState = searchListState,
+                                                onLocationClick = {
+                                                    action(LLAction.OnLocationClick(it))
                                                     onNavigate(it)
-                                                },
-                                                modifier = Modifier.fillMaxSize(),
-                                                lazyListState = searchListState
+                                                }
                                             )
                                         }
                                     }
@@ -176,14 +174,13 @@ fun CLScreen(
                                         modifier = Modifier.align(Alignment.Center)
                                     )
                                 } else {
-                                    CharacterList(
-                                        characters = state.saved,
-                                        onCharacterClick = {
-                                            onAction(CLAction.OnCharacterClick(it))
+                                    LocationsList(
+                                        locations = state.saved,
+                                        lazyListState = savedListState,
+                                        onLocationClick = {
+                                            action(LLAction.OnLocationClick(it))
                                             onNavigate(it)
-                                        },
-                                        modifier = Modifier.fillMaxSize(),
-                                        lazyListState = savedListState
+                                        }
                                     )
                                 }
                             }

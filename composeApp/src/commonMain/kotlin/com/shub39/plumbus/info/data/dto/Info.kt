@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.data.dto.character
+package com.shub39.plumbus.info.data.dto
 
 import kotlinx.serialization.Serializable
 

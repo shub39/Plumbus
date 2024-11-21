@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.domain.character
+package com.shub39.plumbus.info.domain
 
 // location data class
 data class Location(

@@ -1,4 +1,4 @@
-import org.gradle.api.JavaVersion.VERSION_11
+import org.gradle.api.JavaVersion.VERSION_17
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -17,15 +17,15 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
+
+    jvm("desktop")
 
     room {
         schemaDirectory("$projectDir/schemas")
     }
-    
-    jvm("desktop")
     
     sourceSets {
         val desktopMain by getting
@@ -94,8 +94,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = VERSION_11
-        targetCompatibility = VERSION_11
+        sourceCompatibility = VERSION_17
+        targetCompatibility = VERSION_17
     }
     buildFeatures{
         compose = true

@@ -5,8 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.shub39.plumbus.core.domain.onError
 import com.shub39.plumbus.core.domain.onSuccess
 import com.shub39.plumbus.core.presentation.toUiText
-import com.shub39.plumbus.info.domain.character.Character
-import com.shub39.plumbus.info.domain.character.CharacterRepo
+import com.shub39.plumbus.info.domain.CharacterRepo
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,15 +25,14 @@ class CLViewModel(
     private val dataSource: CharacterRepo
 ) : ViewModel() {
 
-    private var cachedCharacters: List<Character> = emptyList()
     private var searchJob: Job? = null
+    private var savedJob: Job? = null
 
     private val _state = MutableStateFlow(CLState())
     val state = _state
         .onStart {
-            if (cachedCharacters.isEmpty()) {
-                observeSearch()
-            }
+            observeSearch()
+            observeSaved()
         }
         .stateIn(
             viewModelScope,
@@ -74,10 +72,7 @@ class CLViewModel(
                 when {
                     query.isBlank() -> {
                         _state.update {
-                            it.copy(
-                                errorMessage = null,
-                                searchResults = cachedCharacters
-                            )
+                            it.copy(errorMessage = null)
                         }
                     }
 
@@ -90,10 +85,20 @@ class CLViewModel(
             .launchIn(viewModelScope)
     }
 
+    private fun observeSaved() {
+        savedJob?.cancel()
+        savedJob = dataSource
+            .getCharacters()
+            .onEach { characters ->
+                _state.update {
+                    it.copy(saved = characters)
+                }
+            }
+            .launchIn(viewModelScope)
+    }
+
     private fun searchCharacter(query: String) = viewModelScope.launch {
-        _state.update {
-            it.copy(isLoading = true)
-        }
+        _state.update { it.copy(isLoading = true) }
 
         dataSource
             .searchCharacter(query)
@@ -102,9 +107,11 @@ class CLViewModel(
                     it.copy(
                         isLoading = false,
                         errorMessage = null,
-                        searchResults = searchResults
+                        searchResults = searchResults,
                     )
                 }
+
+                searchResults.forEach { dataSource.addCharacter(it) }
             }
             .onError { searchError ->
                 _state.update {
