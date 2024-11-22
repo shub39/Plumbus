@@ -13,6 +13,10 @@ plugins {
     alias(libs.plugins.room)
 }
 
+val appName = "Plumbus"
+val version = "1.0.0"
+val versionCode = 1
+
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -81,7 +85,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = version
     }
     packaging {
         resources {
@@ -90,7 +94,26 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        debug {
+            resValue("string", "app_name", "$appName Debug")
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+        }
+        create("beta"){
+            resValue("string", "app_name", "$appName Beta")
+            applicationIdSuffix = ".beta"
+            isMinifyEnabled = true
+            versionNameSuffix = "-beta"
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -112,12 +135,12 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "com.shub39.plumbus.MainKt"
+        mainClass = "MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.shub39.plumbus"
-            packageVersion = "1.0.0"
+            packageVersion = version
         }
     }
 }

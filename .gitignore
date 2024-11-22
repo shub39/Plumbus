@@ -1,6 +1,8 @@
 *.iml
 .kotlin
 .gradle
+composeApp/release
+composeApp/beta
 **/build/
 xcuserdata
 !src/**/build/

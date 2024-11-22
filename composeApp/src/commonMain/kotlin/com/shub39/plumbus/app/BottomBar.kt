@@ -47,8 +47,10 @@ fun BottomBar(
                 NavigationBarItem(
                     selected = currentRoute == route,
                     onClick = {
-                        navController.navigate(route) {
-                            launchSingleTop = true
+                        if (currentRoute != route) {
+                            navController.navigate(route) {
+                                launchSingleTop = true
+                            }
                         }
                     },
                     icon = {

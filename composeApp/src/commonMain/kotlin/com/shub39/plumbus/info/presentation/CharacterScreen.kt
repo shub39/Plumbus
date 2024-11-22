@@ -189,7 +189,7 @@ fun CharacterScreen(
             // the main page
             LazyColumn(
                 modifier = Modifier
-                    .padding(top = 48.dp, start = 16.dp, end = 16.dp)
+                    .padding(top = 64.dp, start = 16.dp, end = 16.dp)
                     .widthIn(max = 700.dp)
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -288,10 +288,12 @@ fun CharacterScreen(
                                 textAlign = TextAlign.Center
                             )
                         } else {
+                            val success = (origin as Result.Success).data
+
                             LLItem(
-                                location = (origin as Result.Success).data,
-                                onClick = { },
-                                onFav = { },
+                                location = success,
+                                onClick = { onLocationClick(success) },
+                                onFav = {},
                                 favAvailable = false
                             )
                         }
@@ -324,9 +326,11 @@ fun CharacterScreen(
                                 textAlign = TextAlign.Center
                             )
                         } else {
+                            val success = (lastLocation as Result.Success).data
+
                             LLItem(
-                                location = (lastLocation as Result.Success).data,
-                                onClick = { },
+                                location = success,
+                                onClick = { onLocationClick(success) },
                                 onFav = { },
                                 favAvailable = false
                             )
@@ -358,7 +362,7 @@ fun CharacterScreen(
                                 if (it is Result.Success) {
                                     ELItem(
                                         episode = it.data,
-                                        onClick = {},
+                                        onClick = { onEpisodeClick(it.data) },
                                         onFav = {},
                                         favAvailable = false
                                     )
