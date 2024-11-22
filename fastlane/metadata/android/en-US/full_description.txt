@@ -1,0 +1,3 @@
+Plumbus is an app to browse information on characters, episodes and locations from the rick and morty universe upto Season 5
+
+Made with Compose Multiplatform for desktop and Android

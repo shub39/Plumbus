@@ -1,11 +1,39 @@
-This is a Kotlin Multiplatform project targeting Android, Desktop.
+![](fastlane/metadata/android/en-US/images/icon200x200.png)
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+# Plumbus 🥒
 
+### A Compose Multiplatform App to browse info on characters, locations and episodes from the Rick and Morty universe 
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+[<img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/Android/android2.svg">]()
+[<img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/Windows/windows2.svg">]()
+[<img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/macOS/macos3.svg">]()
+[<img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/Linux/linux2.svg">]()
+
+[<img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/AndroidStudio/androidstudio2.svg">]()
+[<img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/Kotlin/kotlin1.svg">]()
+
+## Screenshots 📱
+
+| ![1](fastlane/metadata/android/en-US/images/phoneScreenshots/1.png) | ![2](fastlane/metadata/android/en-US/images/phoneScreenshots/2.png) |
+|:-------------------------------------------------------------------:|:-------------------------------------------------------------------:|
+| ![3](fastlane/metadata/android/en-US/images/phoneScreenshots/3.png) | ![6](fastlane/metadata/android/en-US/images/phoneScreenshots/4.png) |
+| ![4](fastlane/metadata/android/en-US/images/phoneScreenshots/5.png) | ![7](fastlane/metadata/android/en-US/images/phoneScreenshots/6.png) |
+| ![5](fastlane/metadata/android/en-US/images/phoneScreenshots/7.png) | ![8](fastlane/metadata/android/en-US/images/phoneScreenshots/8.png) |
+
+## Try Out
+- ### Android 
+- Download and Install [Latest Release](https://github.com/shub39/Plumbus/releases)
+
+- ### Desktop
+- Haven't figured it out yet 😃
+- You can still check out the dektop version by importing this project on Android Studio and and running `./gradlew run` in the terminal 
+
+## Tech Stack 🛠️
+
+- Compose Multiplatform for Shared UI and App logic 🧑‍💻
+- Koin for dependency Injection 💉
+- Ktor for making Http requests 🌐
+- Kotlinx Serialization for Json parsing 📄
+- [LandScapist]() for Images 🌆
+- Room for Local Databse 📊
+- Kotlin Coroutines 🌴
