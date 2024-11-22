@@ -1,6 +1,6 @@
 ![](fastlane/metadata/android/en-US/images/icon200x200.png)
 
-# Plumbus 🥒
+# Plumbus
 
 ### A Compose Multiplatform App to browse info on characters, locations and episodes from the Rick and Morty universe 
 
@@ -8,7 +8,6 @@
 [<img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/Windows/windows2.svg">]()
 [<img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/macOS/macos3.svg">]()
 [<img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/Linux/linux2.svg">]()
-
 [<img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/AndroidStudio/androidstudio2.svg">]()
 [<img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/Kotlin/kotlin1.svg">]()
 
@@ -20,7 +19,11 @@
 | ![4](fastlane/metadata/android/en-US/images/phoneScreenshots/5.png) | ![7](fastlane/metadata/android/en-US/images/phoneScreenshots/6.png) |
 | ![5](fastlane/metadata/android/en-US/images/phoneScreenshots/7.png) | ![8](fastlane/metadata/android/en-US/images/phoneScreenshots/8.png) |
 
-## Try Out
+## Thanks 🙏
+- Rick and Morty [API](https://rickandmortyapi.com/)
+- [JetBrains](https://www.jetbrains.com/compose-multiplatform/) for such an amazing framework and IDEs 
+
+## Try Out 🔧
 - ### Android 
 - Download and Install [Latest Release](https://github.com/shub39/Plumbus/releases)
 
