@@ -19,6 +19,8 @@ import com.shub39.plumbus.info.domain.Character
 fun CharacterList(
     characters: List<Character>,
     onCharacterClick: (Character) -> Unit,
+    onCharacterFav: (Character) -> Unit,
+    favAvailable: Boolean = true,
     lazyListState: LazyListState = rememberLazyListState(),
     modifier: Modifier = Modifier,
 ) {
@@ -33,6 +35,8 @@ fun CharacterList(
             CLItem(
                 character = character,
                 onClick = { onCharacterClick(character) },
+                onFav = { onCharacterFav(character) },
+                favAvailable = favAvailable
             )
         }
 

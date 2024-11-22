@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.Flow
 interface LocationRepo {
     suspend fun searchLocation(query: String): Result<List<Location>, DataError.Remote>
     fun getLocations(): Flow<List<Location>>
+    fun getFavLocations(): Flow<List<Location>>
     suspend fun addLocation(location: Location): EmptyResult<DataError.Local>
     suspend fun deleteLocation(id: Int)
+    suspend fun setFavLocation(id: Int)
 }

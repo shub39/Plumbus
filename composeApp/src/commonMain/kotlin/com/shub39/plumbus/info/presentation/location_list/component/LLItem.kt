@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,12 +29,14 @@ import com.shub39.plumbus.info.domain.Location
 @Composable
 fun LLItem(
     location: Location,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onFav: () -> Unit,
+    favAvailable: Boolean
 ) {
     Card(
         modifier = Modifier
             .height(100.dp)
-            .widthIn(max = 700.dp)
+            .widthIn(max = 600.dp)
             .fillMaxWidth(),
         onClick = onClick,
         shape = RoundedCornerShape(32.dp)
@@ -55,7 +59,7 @@ fun LLItem(
                     text = location.name,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    maxLines = 2,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
 
@@ -74,10 +78,27 @@ fun LLItem(
                 )
             }
 
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = null
-            )
+            if (favAvailable) {
+                IconButton(
+                    onClick = {
+                        onFav()
+                    }
+                ) {
+                    if (location.isFav) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Default.FavoriteBorder,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            }
         }
     }
 }

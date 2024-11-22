@@ -159,6 +159,10 @@ fun CLScreen(
                                                     onAction(CLAction.OnCharacterClick(it))
                                                     onNavigate(it)
                                                 },
+                                                onCharacterFav = {
+                                                    onAction(CLAction.OnSetFav(it.id))
+                                                },
+                                                favAvailable = false,
                                                 modifier = Modifier.fillMaxSize(),
                                                 lazyListState = searchListState
                                             )
@@ -181,6 +185,9 @@ fun CLScreen(
                                         onCharacterClick = {
                                             onAction(CLAction.OnCharacterClick(it))
                                             onNavigate(it)
+                                        },
+                                        onCharacterFav = {
+                                            onAction(CLAction.OnSetFav(it.id))
                                         },
                                         modifier = Modifier.fillMaxSize(),
                                         lazyListState = savedListState

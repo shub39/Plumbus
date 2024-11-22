@@ -18,6 +18,8 @@ import com.shub39.plumbus.info.domain.Location
 fun LocationsList(
     locations: List<Location>,
     onLocationClick: (Location) -> Unit,
+    onLocationFav: (Location) -> Unit,
+    favAvailable: Boolean = true,
     lazyListState: LazyListState = rememberLazyListState(),
     modifier: Modifier = Modifier
 ) {
@@ -31,7 +33,9 @@ fun LocationsList(
         items(locations, key = { it.id }) { location ->
             LLItem(
                 location = location,
-                onClick = { onLocationClick(location) }
+                onClick = { onLocationClick(location) },
+                onFav = { onLocationFav(location) },
+                favAvailable = favAvailable
             )
         }
 

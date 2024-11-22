@@ -18,6 +18,8 @@ import com.shub39.plumbus.info.domain.Episode
 fun EpisodeList(
     episodes: List<Episode>,
     onEpisodeClick: (Episode) -> Unit,
+    onEpisodeFav: (Episode) -> Unit,
+    favAvailable: Boolean = true,
     lazyListState: LazyListState = rememberLazyListState(),
     modifier: Modifier = Modifier,
 ) {
@@ -31,7 +33,9 @@ fun EpisodeList(
         items(episodes, key = { it.id }) { episode ->
             ELItem(
                 episode = episode,
-                onClick = { onEpisodeClick(episode) }
+                onClick = { onEpisodeClick(episode) },
+                onFav = { onEpisodeFav(episode) },
+                favAvailable = favAvailable
             )
         }
 

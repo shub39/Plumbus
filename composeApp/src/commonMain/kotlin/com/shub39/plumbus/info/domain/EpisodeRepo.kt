@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.Flow
 interface EpisodeRepo {
     suspend fun searchEpisode(query: String): Result<List<Episode>, DataError.Remote>
     fun getEpisodes(): Flow<List<Episode>>
+    fun getFavEpisodes(): Flow<List<Episode>>
     suspend fun addEpisode(episode: Episode): EmptyResult<DataError.Local>
     suspend fun removeEpisode(id: Int)
+    suspend fun setFavEpisode(id: Int)
 }

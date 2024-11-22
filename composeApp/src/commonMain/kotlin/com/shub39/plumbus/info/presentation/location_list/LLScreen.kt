@@ -158,7 +158,12 @@ fun LLScreen(
                                                 onLocationClick = {
                                                     action(LLAction.OnLocationClick(it))
                                                     onNavigate(it)
-                                                }
+                                                },
+                                                onLocationFav = {
+                                                    action(LLAction.OnSetFav(it.id))
+                                                },
+                                                favAvailable = false,
+                                                modifier = Modifier.fillMaxSize()
                                             )
                                         }
                                     }
@@ -180,7 +185,11 @@ fun LLScreen(
                                         onLocationClick = {
                                             action(LLAction.OnLocationClick(it))
                                             onNavigate(it)
-                                        }
+                                        },
+                                        onLocationFav = {
+                                            action(LLAction.OnSetFav(it.id))
+                                        },
+                                        modifier = Modifier.fillMaxSize()
                                     )
                                 }
                             }

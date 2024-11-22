@@ -6,12 +6,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.shub39.plumbus.core.presentation.PlumbusTheme
+import com.shub39.plumbus.info.presentation.HomePage
 import com.shub39.plumbus.info.presentation.character_list.CLScreen
 import com.shub39.plumbus.info.presentation.character_list.CLViewModel
 import com.shub39.plumbus.info.presentation.episode_list.ELScreen
@@ -30,11 +32,11 @@ fun App(
     PlumbusTheme {
         val navController = rememberNavController()
 
-        val clState by clvm.state.collectAsState()
-        val elState by elvm.state.collectAsState()
-        val llState by llvm.state.collectAsState()
+        val clState by clvm.state.collectAsStateWithLifecycle()
+        val elState by elvm.state.collectAsStateWithLifecycle()
+        val llState by llvm.state.collectAsStateWithLifecycle()
 
-        Scaffold (
+        Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = { BottomBar(navController) }
         ) { innerPadding ->
@@ -46,8 +48,31 @@ fun App(
                     .padding(innerPadding)
             ) {
                 navigation<Route.PlumbusGraph>(
-                    startDestination = Route.CharacterList
+                    startDestination = Route.HomePage
                 ) {
+                    composable<Route.HomePage> {
+                        HomePage(
+                            clState = clState,
+                            elState = elState,
+                            llState = llState,
+                            onCharacterClick = { character ->
+                                navController.navigate(Route.CharacterDetail(character.id)) {
+                                    launchSingleTop = true
+                                }
+                            },
+                            onEpisodeClick = { episode ->
+                                navController.navigate(Route.EpisodeDetail(episode.id)) {
+                                    launchSingleTop = true
+                                }
+                            },
+                            onLocationClick = { location ->
+                                navController.navigate(Route.LocationDetail(location.id)) {
+                                    launchSingleTop = true
+                                }
+                            }
+                        )
+                    }
+
                     composable<Route.CharacterList> {
                         CLScreen(
                             state = clState,

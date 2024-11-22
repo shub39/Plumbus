@@ -22,7 +22,8 @@ fun CharacterDto.toCharacter(): Character {
         episodes = episode,
         url = url,
         origin = Pair(origin.name, origin.url),
-        location = Pair(location.name, location.url)
+        location = Pair(location.name, location.url),
+        isFav = false
     )
 }
 
@@ -39,6 +40,7 @@ fun Character.toCharacterEntity(): CharacterEntity {
         url = url,
         origin = Pair(origin.first, origin.second),
         location = Pair(location.first, location.second),
+        isFav = isFav
     )
 }
 
@@ -54,7 +56,8 @@ fun CharacterEntity.toCharacter(): Character {
         episodes = episode,
         url = url,
         origin = origin,
-        location = location
+        location = location,
+        isFav = isFav
     )
 }
 
@@ -66,6 +69,7 @@ fun LocationDto.toLocation(): Location {
         type = type,
         dimension = dimension,
         residents = residents,
+        isFav = false
     )
 }
 
@@ -76,7 +80,8 @@ fun Location.toLocationEntity(): LocationEntity {
         name = name,
         type = type,
         dimension = dimension,
-        residents = residents
+        residents = residents,
+        isFav = isFav
     )
 }
 
@@ -87,7 +92,8 @@ fun LocationEntity.toLocation(): Location {
         name = name,
         type = type,
         dimension = dimension,
-        residents = residents
+        residents = residents,
+        isFav = isFav
     )
 }
 
@@ -98,7 +104,8 @@ fun EpisodeDto.toEpisode(): Episode {
         airDate = airDate,
         episode = episode,
         characters = characters,
-        url = url
+        url = url,
+        isFav = false
     )
 }
 
@@ -109,7 +116,8 @@ fun Episode.toEpisodeEntity(): EpisodeEntity{
         airDate = airDate,
         episode = episode,
         characters = characters,
-        url = url
+        url = url,
+        isFav = isFav
     )
 }
 
@@ -120,6 +128,7 @@ fun EpisodeEntity.toEpisode(): Episode {
         airDate = airDate,
         episode = episode,
         characters = characters,
-        url = url
+        url = url,
+        isFav = isFav
     )
 }

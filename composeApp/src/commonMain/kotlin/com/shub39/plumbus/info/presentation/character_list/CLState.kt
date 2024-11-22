@@ -8,6 +8,7 @@ data class CLState(
     val searchQuery: String = "",
     val searchResults: List<Character> = emptyList(),
     val saved: List<Character> = emptyList(),
+    val favs: List<Character> = emptyList(),
     val isLoading: Boolean = false,
     val selectIndex: Int = 0,
     val errorMessage: UiText? = null

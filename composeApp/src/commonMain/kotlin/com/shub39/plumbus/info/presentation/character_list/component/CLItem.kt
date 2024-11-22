@@ -8,13 +8,16 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,15 +42,18 @@ import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 @Composable
 fun CLItem(
     character: Character,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onFav: () -> Unit,
+    favAvailable: Boolean
 ) {
     Card(
         onClick = onClick,
-        shape = RoundedCornerShape(32.dp)
+        shape = RoundedCornerShape(32.dp),
     ) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
+                .widthIn(max = 600.dp)
                 .fillMaxWidth()
                 .height(100.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -126,10 +132,27 @@ fun CLItem(
                 )
             }
 
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = null
-            )
+            if (favAvailable) {
+                IconButton(
+                    onClick = {
+                        onFav()
+                    }
+                ) {
+                    if (character.isFav) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Default.FavoriteBorder,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            }
         }
     }
 }

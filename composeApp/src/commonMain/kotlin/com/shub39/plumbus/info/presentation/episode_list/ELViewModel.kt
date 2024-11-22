@@ -28,12 +28,14 @@ class ELViewModel(
 
     private var searchJob: Job? = null
     private var savedJob: Job? = null
+    private var favsJob: Job? = null
 
     private val _state = MutableStateFlow(ELState())
     val state = _state.asStateFlow()
         .onStart {
             observeSearch()
             observeSaved()
+            observeFavs()
         }
         .stateIn(
             viewModelScope,
@@ -59,6 +61,12 @@ class ELViewModel(
                         it.copy(
                             selectIndex = action.index
                         )
+                    }
+                }
+
+                is ELAction.OnSetFav -> {
+                    viewModelScope.launch {
+                        dataSource.setFavEpisode(action.id)
                     }
                 }
             }
@@ -95,6 +103,18 @@ class ELViewModel(
             .onEach { episodes ->
                 _state.update {
                     it.copy(saved = episodes)
+                }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun observeFavs() {
+        favsJob?.cancel()
+        favsJob = dataSource
+            .getFavEpisodes()
+            .onEach { episodes ->
+                _state.update {
+                    it.copy(favs = episodes)
                 }
             }
             .launchIn(viewModelScope)

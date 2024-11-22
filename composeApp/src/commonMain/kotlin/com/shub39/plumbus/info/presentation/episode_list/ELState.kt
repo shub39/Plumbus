@@ -8,6 +8,7 @@ data class ELState (
     val searchQuery: String = "",
     val searchResults: List<Episode> = emptyList(),
     val saved: List<Episode> = emptyList(),
+    val favs: List<Episode> = emptyList(),
     val isLoading: Boolean = false,
     val selectIndex: Int = 0,
     val errorMessage: UiText? = null

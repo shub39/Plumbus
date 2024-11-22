@@ -34,6 +34,14 @@ class DefaultCharacterRepo(
             }
     }
 
+    override fun getFavCharacters(): Flow<List<Character>> {
+        return characterDao
+            .getFavCharacters()
+            .map { entities ->
+                entities.map { it.toCharacter() }
+            }
+    }
+
     override suspend fun addCharacter(character: Character): EmptyResult<DataError.Local> {
         return try {
             characterDao.upsertCharacter(character.toCharacterEntity())
@@ -45,5 +53,9 @@ class DefaultCharacterRepo(
 
     override suspend fun removeCharacter(id: Int) {
         characterDao.deleteCharacter(id)
+    }
+
+    override suspend fun setFavCharacter(id: Int) {
+        characterDao.setFavCharacter(id)
     }
 }

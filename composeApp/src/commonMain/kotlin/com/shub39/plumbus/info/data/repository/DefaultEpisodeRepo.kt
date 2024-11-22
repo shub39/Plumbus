@@ -34,6 +34,14 @@ class DefaultEpisodeRepo(
             }
     }
 
+    override fun getFavEpisodes(): Flow<List<Episode>> {
+        return episodeDao
+            .getFavEpisodes()
+            .map { entities ->
+                entities.map { it.toEpisode() }
+            }
+    }
+
     override suspend fun addEpisode(episode: Episode): EmptyResult<DataError.Local> {
         return try {
             episodeDao.upsertEpisode(episode.toEpisodeEntity())
@@ -45,5 +53,9 @@ class DefaultEpisodeRepo(
 
     override suspend fun removeEpisode(id: Int) {
         episodeDao.deleteEpisode(id)
+    }
+
+    override suspend fun setFavEpisode(id: Int) {
+       episodeDao.setFavEpisode(id)
     }
 }

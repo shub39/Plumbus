@@ -27,12 +27,14 @@ class CLViewModel(
 
     private var searchJob: Job? = null
     private var savedJob: Job? = null
+    private var favsJob: Job? = null
 
     private val _state = MutableStateFlow(CLState())
     val state = _state
         .onStart {
             observeSearch()
             observeSaved()
+            observeFavs()
         }
         .stateIn(
             viewModelScope,
@@ -57,6 +59,12 @@ class CLViewModel(
                     it.copy(
                         selectIndex = action.index
                     )
+                }
+            }
+
+            is CLAction.OnSetFav -> {
+                viewModelScope.launch {
+                    dataSource.setFavCharacter(action.id)
                 }
             }
         }
@@ -92,6 +100,18 @@ class CLViewModel(
             .onEach { characters ->
                 _state.update {
                     it.copy(saved = characters)
+                }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun observeFavs() {
+        favsJob?.cancel()
+        favsJob = dataSource
+            .getFavCharacters()
+            .onEach { characters ->
+                _state.update {
+                    it.copy(favs = characters)
                 }
             }
             .launchIn(viewModelScope)

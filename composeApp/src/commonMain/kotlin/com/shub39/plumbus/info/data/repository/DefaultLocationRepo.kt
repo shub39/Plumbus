@@ -34,6 +34,14 @@ class DefaultLocationRepo(
             }
     }
 
+    override fun getFavLocations(): Flow<List<Location>> {
+        return locationDao
+            .getFavLocations()
+            .map { entities ->
+                entities.map { it.toLocation() }
+            }
+    }
+
     override suspend fun addLocation(location: Location): EmptyResult<DataError.Local> {
         return try {
             locationDao.upsertLocation(location.toLocationEntity())
@@ -45,6 +53,10 @@ class DefaultLocationRepo(
 
     override suspend fun deleteLocation(id: Int) {
         locationDao.deleteLocation(id)
+    }
+
+    override suspend fun setFavLocation(id: Int) {
+        locationDao.setFavLocation(id)
     }
 
 }

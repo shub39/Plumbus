@@ -158,7 +158,12 @@ fun ELScreen(
                                                 onEpisodeClick = {
                                                     action(ELAction.OnEpisodeClick(it))
                                                     onNavigate(it)
-                                                }
+                                                },
+                                                onEpisodeFav = {
+                                                    action(ELAction.OnSetFav(it.id))
+                                                },
+                                                favAvailable = false,
+                                                modifier = Modifier.fillMaxSize()
                                             )
                                         }
                                     }
@@ -180,7 +185,11 @@ fun ELScreen(
                                         onEpisodeClick = {
                                             action(ELAction.OnEpisodeClick(it))
                                             onNavigate(it)
-                                        }
+                                        },
+                                        onEpisodeFav = {
+                                          action(ELAction.OnSetFav(it.id))
+                                        },
+                                        modifier = Modifier.fillMaxSize()
                                     )
                                 }
                             }

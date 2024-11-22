@@ -16,4 +16,5 @@ data class CharacterEntity(
     val url: String,
     val origin: Pair<String, String>,
     val location: Pair<String, String>,
+    val isFav: Boolean
 )

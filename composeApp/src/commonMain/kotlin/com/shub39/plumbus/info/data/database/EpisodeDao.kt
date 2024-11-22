@@ -13,6 +13,12 @@ interface EpisodeDao {
     @Query("SELECT * FROM episodes")
     fun getEpisodes(): Flow<List<EpisodeEntity>>
 
+    @Query("UPDATE episodes SET isFav = NOT isFav WHERE id = :id")
+    suspend fun setFavEpisode(id: Int)
+
+    @Query("SELECT * FROM episodes WHERE isFav = 1")
+    fun getFavEpisodes(): Flow<List<EpisodeEntity>>
+
     @Query("DELETE FROM episodes WHERE id = :id")
     suspend fun deleteEpisode(id: Int)
 

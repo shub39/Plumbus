@@ -13,6 +13,12 @@ interface CharacterDao {
     @Query("SELECT * FROM characters")
     fun getCharacters(): Flow<List<CharacterEntity>>
 
+    @Query("SELECT * FROM characters WHERE isFav = 1")
+    fun getFavCharacters(): Flow<List<CharacterEntity>>
+
+    @Query("UPDATE characters SET isFav = NOT isFav WHERE id = :id")
+    suspend fun setFavCharacter(id: Int)
+
     @Query("SELECT * FROM characters WHERE id = :id")
     suspend fun getCharacter(id: Int): CharacterEntity?
 

@@ -27,11 +27,13 @@ class LLViewModel(
 
     private var searchJob: Job? = null
     private var savedJob: Job? = null
+    private var favsJob: Job? = null
 
     private val _state = MutableStateFlow(LLState())
     val state = _state.asStateFlow()
         .onStart {
             observeSearch()
+            observeFavs()
             observeSaved()
         }
         .stateIn(
@@ -58,6 +60,12 @@ class LLViewModel(
                         it.copy(
                             selectIndex = action.index
                         )
+                    }
+                }
+
+                is LLAction.OnSetFav -> {
+                    viewModelScope.launch {
+                        dataSource.setFavLocation(action.id)
                     }
                 }
             }
@@ -94,6 +102,18 @@ class LLViewModel(
             .onEach { locations ->
                 _state.update {
                     it.copy(saved = locations)
+                }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun observeFavs() {
+        favsJob?.cancel()
+        favsJob = dataSource
+            .getFavLocations()
+            .onEach { locations ->
+                _state.update {
+                    it.copy(favs = locations)
                 }
             }
             .launchIn(viewModelScope)

@@ -7,4 +7,5 @@ sealed interface CLAction {
     data class OnSearchQueryChange(val query: String): CLAction
     data class OnCharacterClick(val character: Character): CLAction
     data class OnTabSelected(val index: Int): CLAction
+    data class OnSetFav(val id: Int): CLAction
 }

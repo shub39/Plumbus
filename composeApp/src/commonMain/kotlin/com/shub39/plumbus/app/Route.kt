@@ -8,6 +8,9 @@ sealed interface Route {
     data object PlumbusGraph: Route
 
     @Serializable
+    data object HomePage: Route
+
+    @Serializable
     data object CharacterList: Route
 
     @Serializable

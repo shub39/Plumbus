@@ -13,6 +13,12 @@ interface LocationDao {
     @Query("SELECT * FROM locations")
     fun getLocations(): Flow<List<LocationEntity>>
 
+    @Query("UPDATE locations SET isFav = NOT isFav WHERE id = :id")
+    suspend fun setFavLocation(id: Int)
+
+    @Query("SELECT * FROM locations WHERE isFav = 1")
+    fun getFavLocations(): Flow<List<LocationEntity>>
+
     @Query("DELETE FROM locations WHERE id = :id")
     suspend fun deleteLocation(id: Int)
 
