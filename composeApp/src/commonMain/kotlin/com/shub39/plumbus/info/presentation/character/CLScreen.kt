@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.presentation.character_list
+package com.shub39.plumbus.info.presentation.character
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,8 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.shub39.plumbus.info.domain.Character
-import com.shub39.plumbus.info.presentation.character_list.component.CharacterList
+import com.shub39.plumbus.info.presentation.character.component.CharacterList
 import com.shub39.plumbus.info.presentation.components.GeneralSearchBar
 import org.jetbrains.compose.resources.stringResource
 import plumbus.composeapp.generated.resources.Res
@@ -38,7 +37,7 @@ import plumbus.composeapp.generated.resources.search_results
 fun CLScreen(
     state: CLState,
     onAction: (CLAction) -> Unit,
-    onNavigate: (Character) -> Unit
+    onNavigate: () -> Unit
 ) {
     val pagerState = rememberPagerState { 2 }
     val searchListState = rememberLazyListState()
@@ -157,7 +156,7 @@ fun CLScreen(
                                                 characters = state.searchResults,
                                                 onCharacterClick = {
                                                     onAction(CLAction.OnCharacterClick(it))
-                                                    onNavigate(it)
+                                                    onNavigate()
                                                 },
                                                 onCharacterFav = {
                                                     onAction(CLAction.OnSetFav(it.id))
@@ -184,7 +183,7 @@ fun CLScreen(
                                         characters = state.saved,
                                         onCharacterClick = {
                                             onAction(CLAction.OnCharacterClick(it))
-                                            onNavigate(it)
+                                            onNavigate()
                                         },
                                         onCharacterFav = {
                                             onAction(CLAction.OnSetFav(it.id))

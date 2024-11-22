@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.presentation.character_list.component
+package com.shub39.plumbus.info.presentation.character.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Person
@@ -33,10 +34,8 @@ import androidx.compose.ui.unit.dp
 import com.shub39.plumbus.info.domain.Character
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
-import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerContainer
-import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 // list entry item for each character
 @Composable
@@ -65,14 +64,6 @@ fun CLItem(
                     contentScale = ContentScale.Crop,
                     alignment = Alignment.Center
                 ),
-                component = rememberImageComponent {
-                    +ShimmerPlugin(
-                        Shimmer.Flash(
-                            baseColor = MaterialTheme.colorScheme.surface,
-                            highlightColor = MaterialTheme.colorScheme.primary
-                        )
-                    )
-                },
                 failure = {
                     Icon(
                         imageVector = Icons.Default.Warning,
@@ -152,6 +143,11 @@ fun CLItem(
                         )
                     }
                 }
+            } else {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                    contentDescription = null
+                )
             }
         }
     }

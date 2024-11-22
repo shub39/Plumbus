@@ -14,17 +14,17 @@ sealed interface Route {
     data object CharacterList: Route
 
     @Serializable
-    data class CharacterDetail(val id: Int): Route
+    data object CharacterDetail: Route
 
     @Serializable
     data object EpisodeList: Route
 
     @Serializable
-    data class EpisodeDetail(val id: Int): Route
+    data object EpisodeDetail: Route
 
     @Serializable
     data object LocationList: Route
 
     @Serializable
-    data class LocationDetail(val id: Int): Route
+    data object LocationDetail: Route
 }

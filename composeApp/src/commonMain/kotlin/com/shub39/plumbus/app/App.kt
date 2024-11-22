@@ -11,15 +11,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import com.shub39.plumbus.core.presentation.PlumbusTheme
+import com.shub39.plumbus.info.presentation.CharacterScreen
 import com.shub39.plumbus.info.presentation.HomePage
-import com.shub39.plumbus.info.presentation.character_list.CLScreen
-import com.shub39.plumbus.info.presentation.character_list.CLViewModel
-import com.shub39.plumbus.info.presentation.episode_list.ELScreen
-import com.shub39.plumbus.info.presentation.episode_list.ELViewModel
-import com.shub39.plumbus.info.presentation.location_list.LLScreen
-import com.shub39.plumbus.info.presentation.location_list.LLViewModel
+import com.shub39.plumbus.info.presentation.character.CLAction
+import com.shub39.plumbus.info.presentation.character.CLScreen
+import com.shub39.plumbus.info.presentation.character.CLViewModel
+import com.shub39.plumbus.info.presentation.episode.ELAction
+import com.shub39.plumbus.info.presentation.episode.ELScreen
+import com.shub39.plumbus.info.presentation.episode.ELViewModel
+import com.shub39.plumbus.info.presentation.location.LLAction
+import com.shub39.plumbus.info.presentation.location.LLScreen
+import com.shub39.plumbus.info.presentation.location.LLViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 // the homepage
@@ -31,6 +34,14 @@ fun App(
 ) {
     PlumbusTheme {
         val navController = rememberNavController()
+        var currentRoute: Route by remember { mutableStateOf(Route.HomePage) }
+
+        val routes = listOf(
+            Route.HomePage,
+            Route.CharacterList,
+            Route.EpisodeList,
+            Route.LocationList
+        )
 
         val clState by clvm.state.collectAsStateWithLifecycle()
         val elState by elvm.state.collectAsStateWithLifecycle()
@@ -38,7 +49,13 @@ fun App(
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            bottomBar = { BottomBar(navController) }
+            bottomBar = {
+                BottomBar(
+                    navController = navController,
+                    routes = routes,
+                    currentRoute = currentRoute
+                )
+            }
         ) { innerPadding ->
             NavHost(
                 navController = navController,
@@ -51,34 +68,44 @@ fun App(
                     startDestination = Route.HomePage
                 ) {
                     composable<Route.HomePage> {
+                        currentRoute = Route.HomePage
+
                         HomePage(
                             clState = clState,
                             elState = elState,
                             llState = llState,
                             onCharacterClick = { character ->
-                                navController.navigate(Route.CharacterDetail(character.id)) {
+                                clvm.action(CLAction.OnCharacterClick(character))
+
+                                navController.navigate(Route.CharacterDetail) {
                                     launchSingleTop = true
                                 }
                             },
                             onEpisodeClick = { episode ->
-                                navController.navigate(Route.EpisodeDetail(episode.id)) {
-                                    launchSingleTop = true
-                                }
+                                elvm.action(ELAction.OnEpisodeClick(episode))
+
+//                                navController.navigate(Route.EpisodeDetail) {
+//                                    launchSingleTop = true
+//                                }
                             },
                             onLocationClick = { location ->
-                                navController.navigate(Route.LocationDetail(location.id)) {
-                                    launchSingleTop = true
-                                }
+                                llvm.action(LLAction.OnLocationClick(location))
+
+//                                navController.navigate(Route.LocationDetail) {
+//                                    launchSingleTop = true
+//                                }
                             }
                         )
                     }
 
                     composable<Route.CharacterList> {
+                        currentRoute = Route.CharacterList
+
                         CLScreen(
                             state = clState,
                             onAction = clvm::action,
-                            onNavigate = { character ->
-                                navController.navigate(Route.CharacterDetail(character.id)) {
+                            onNavigate = {
+                                navController.navigate(Route.CharacterDetail) {
                                     launchSingleTop = true
                                 }
                             }
@@ -86,45 +113,55 @@ fun App(
                     }
 
                     composable<Route.EpisodeList> {
+                        currentRoute = Route.EpisodeList
+
                         ELScreen(
                             state = elState,
                             action = elvm::action,
-                            onNavigate = { episode ->
-                                navController.navigate(Route.EpisodeDetail(episode.id)) {
-                                    launchSingleTop = true
-                                }
+                            onNavigate = {
+//                                navController.navigate(Route.EpisodeDetail) {
+//                                    launchSingleTop = true
+//                                }
                             }
                         )
                     }
 
                     composable<Route.LocationList> {
+                        currentRoute = Route.LocationList
+
                         LLScreen(
                             state = llState,
                             action = llvm::action,
-                            onNavigate = { location ->
-                                navController.navigate(Route.LocationDetail(location.id)) {
-                                    launchSingleTop = true
-                                }
+                            onNavigate = {
+//                                navController.navigate(Route.LocationDetail) {
+//                                    launchSingleTop = true
+//                                }
                             }
                         )
                     }
 
-                    composable<Route.CharacterDetail> { entry ->
-                        val args = entry.toRoute<Route.CharacterDetail>()
-
-                        Text("Character Detail ${args.id}")
+                    composable<Route.CharacterDetail> {
+                        CharacterScreen(
+                            state = clState,
+                            action = clvm::action,
+                            onBack = { navController.navigateUp() },
+                            onEpisodeClick = {
+                                elvm.action(ELAction.OnEpisodeClick(it))
+//                                navController.navigate(Route.EpisodeDetail)
+                            },
+                            onLocationClick = {
+                                llvm.action(LLAction.OnLocationClick(it))
+//                                navController.navigate(Route.LocationDetail)
+                            }
+                        )
                     }
 
-                    composable<Route.EpisodeDetail> { entry ->
-                        val args = entry.toRoute<Route.EpisodeDetail>()
-
-                        Text("Episode Detail ${args.id}")
+                    composable<Route.EpisodeDetail> {
+                        Text("Episode Detail")
                     }
 
-                    composable<Route.LocationDetail> { entry ->
-                        val args = entry.toRoute<Route.LocationDetail>()
-
-                        Text("Location Detail ${args.id}")
+                    composable<Route.LocationDetail> {
+                        Text("Location Detail")
                     }
                 }
             }

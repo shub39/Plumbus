@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.presentation.episode_list
+package com.shub39.plumbus.info.presentation.episode
 
 import com.shub39.plumbus.info.domain.Episode
 

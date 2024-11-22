@@ -15,9 +15,8 @@ fun main() {
         Window(
             onCloseRequest = ::exitApplication,
             title = "Plumbus",
-            resizable = false,
             state = WindowState(
-                size = DpSize(width = 800.dp, height = 900.dp)
+                size = DpSize(width = 600.dp, height = 900.dp)
             )
         ) {
             App()

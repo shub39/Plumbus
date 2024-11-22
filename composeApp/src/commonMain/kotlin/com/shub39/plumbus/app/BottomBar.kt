@@ -14,10 +14,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,16 +30,9 @@ import plumbus.composeapp.generated.resources.locations
 @Composable
 fun BottomBar(
     navController: NavHostController,
+    routes: List<Route>,
+    currentRoute: Route
 ) {
-    var currentRoute: Route by remember { mutableStateOf(Route.HomePage) }
-
-    val routes = listOf(
-        Route.HomePage,
-        Route.CharacterList,
-        Route.EpisodeList,
-        Route.LocationList
-    )
-
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
@@ -61,7 +50,6 @@ fun BottomBar(
                         navController.navigate(route) {
                             launchSingleTop = true
                         }
-                        currentRoute = route
                     },
                     icon = {
                         Icon(

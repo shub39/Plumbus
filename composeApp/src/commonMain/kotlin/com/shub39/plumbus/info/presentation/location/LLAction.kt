@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.presentation.location_list
+package com.shub39.plumbus.info.presentation.location
 
 import com.shub39.plumbus.info.domain.Location
 

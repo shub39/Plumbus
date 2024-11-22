@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.presentation.episode_list.components
+package com.shub39.plumbus.info.presentation.location.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
@@ -24,11 +25,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.shub39.plumbus.info.domain.Episode
+import com.shub39.plumbus.info.domain.Location
 
 @Composable
-fun ELItem(
-    episode: Episode,
+fun LLItem(
+    location: Location,
     onClick: () -> Unit,
     onFav: () -> Unit,
     favAvailable: Boolean
@@ -56,7 +57,7 @@ fun ELItem(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = episode.name,
+                    text = location.name,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
@@ -64,7 +65,14 @@ fun ELItem(
                 )
 
                 Text(
-                    text = episode.airDate,
+                    text = location.type,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Text(
+                    text = location.dimension,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -77,7 +85,7 @@ fun ELItem(
                         onFav()
                     }
                 ) {
-                    if (episode.isFav) {
+                    if (location.isFav) {
                         Icon(
                             imageVector = Icons.Default.Favorite,
                             contentDescription = null,
@@ -91,6 +99,11 @@ fun ELItem(
                         )
                     }
                 }
+            } else {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                    contentDescription = null
+                )
             }
         }
     }

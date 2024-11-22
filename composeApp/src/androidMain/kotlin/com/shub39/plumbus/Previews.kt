@@ -6,11 +6,11 @@ import com.shub39.plumbus.info.domain.Character
 import com.shub39.plumbus.info.domain.Episode
 import com.shub39.plumbus.info.domain.Location
 import com.shub39.plumbus.info.presentation.HomePage
-import com.shub39.plumbus.info.presentation.character_list.CLScreen
-import com.shub39.plumbus.info.presentation.character_list.CLState
-import com.shub39.plumbus.info.presentation.episode_list.ELScreen
-import com.shub39.plumbus.info.presentation.episode_list.ELState
-import com.shub39.plumbus.info.presentation.location_list.LLState
+import com.shub39.plumbus.info.presentation.character.CLScreen
+import com.shub39.plumbus.info.presentation.character.CLState
+import com.shub39.plumbus.info.presentation.episode.ELScreen
+import com.shub39.plumbus.info.presentation.episode.ELState
+import com.shub39.plumbus.info.presentation.location.LLState
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable

@@ -1,11 +1,11 @@
-package com.shub39.plumbus.info.presentation.episode_list
+package com.shub39.plumbus.info.presentation.location
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shub39.plumbus.core.domain.onError
 import com.shub39.plumbus.core.domain.onSuccess
 import com.shub39.plumbus.core.presentation.toUiText
-import com.shub39.plumbus.info.domain.EpisodeRepo
+import com.shub39.plumbus.info.domain.LocationRepo
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,21 +21,20 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-// episode list viewmodel
-class ELViewModel(
-    private val dataSource: EpisodeRepo
+class LLViewModel(
+    private val dataSource: LocationRepo
 ): ViewModel() {
 
     private var searchJob: Job? = null
     private var savedJob: Job? = null
     private var favsJob: Job? = null
 
-    private val _state = MutableStateFlow(ELState())
+    private val _state = MutableStateFlow(LLState())
     val state = _state.asStateFlow()
         .onStart {
             observeSearch()
-            observeSaved()
             observeFavs()
+            observeSaved()
         }
         .stateIn(
             viewModelScope,
@@ -43,12 +42,18 @@ class ELViewModel(
             _state.value
         )
 
-    fun action(action: ELAction) {
+    fun action(action: LLAction) {
         viewModelScope.launch {
             when(action) {
-                is ELAction.OnEpisodeClick -> {}
+                is LLAction.OnLocationClick -> {
+                    _state.update {
+                        it.copy(
+                            currentLocation = action.location
+                        )
+                    }
+                }
 
-                is ELAction.OnSearchQueryChange -> {
+                is LLAction.OnSearchQueryChange -> {
                     _state.update {
                         it.copy(
                             searchQuery = action.query
@@ -56,7 +61,7 @@ class ELViewModel(
                     }
                 }
 
-                is ELAction.OnTabSelected -> {
+                is LLAction.OnTabSelected -> {
                     _state.update {
                         it.copy(
                             selectIndex = action.index
@@ -64,9 +69,9 @@ class ELViewModel(
                     }
                 }
 
-                is ELAction.OnSetFav -> {
+                is LLAction.OnSetFav -> {
                     viewModelScope.launch {
-                        dataSource.setFavEpisode(action.id)
+                        dataSource.setFavLocation(action.id)
                     }
                 }
             }
@@ -89,7 +94,7 @@ class ELViewModel(
 
                     query.length >= 2 -> {
                         searchJob?.cancel()
-                        searchJob = searchEpisode(query)
+                        searchJob = searchLocation(query)
                     }
                 }
             }
@@ -99,10 +104,10 @@ class ELViewModel(
     private fun observeSaved() {
         savedJob?.cancel()
         savedJob = dataSource
-            .getEpisodes()
-            .onEach { episodes ->
+            .getLocations()
+            .onEach { locations ->
                 _state.update {
-                    it.copy(saved = episodes)
+                    it.copy(saved = locations)
                 }
             }
             .launchIn(viewModelScope)
@@ -111,21 +116,21 @@ class ELViewModel(
     private fun observeFavs() {
         favsJob?.cancel()
         favsJob = dataSource
-            .getFavEpisodes()
-            .onEach { episodes ->
+            .getFavLocations()
+            .onEach { locations ->
                 _state.update {
-                    it.copy(favs = episodes)
+                    it.copy(favs = locations)
                 }
             }
             .launchIn(viewModelScope)
     }
 
-    private fun searchEpisode(query: String) = viewModelScope.launch {
+    private fun searchLocation(query: String) = viewModelScope.launch {
         _state.update { it.copy(isLoading = true) }
 
         dataSource
-            .searchEpisode(query)
-            .onSuccess { searchResults ->
+            .searchLocation(query)
+            .onSuccess { searchResults->
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -134,7 +139,7 @@ class ELViewModel(
                     )
                 }
 
-                searchResults.forEach { dataSource.addEpisode(it) }
+                searchResults.forEach { dataSource.addLocation(it) }
             }
             .onError { searchError ->
                 _state.update {

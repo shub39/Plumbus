@@ -26,6 +26,30 @@ class DefaultLocationRepo(
             }
     }
 
+    override suspend fun getSingleLocation(url: String): Result<Location, DataError.Remote> {
+       val daoResult = locationDao.getLocation(url)
+
+       return if (daoResult != null) {
+           Result.Success(daoResult.toLocation())
+       } else {
+           remoteDataSource.getSingleLocation(url).map { it.toLocation() }.also {
+               if (it is Result.Success) {
+                   locationDao.upsertLocation(it.data.toLocationEntity())
+               }
+           }
+       }
+    }
+
+    override suspend fun getLocation(id: Int): Result<Location, DataError.Local> {
+        val daoResult = locationDao.getLocation(id)
+
+        return if (daoResult != null) {
+            Result.Success(daoResult.toLocation())
+        } else {
+            Result.Error(DataError.Local.NOT_FOUND)
+        }
+    }
+
     override fun getLocations(): Flow<List<Location>> {
         return locationDao
             .getLocations()

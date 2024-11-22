@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.presentation.episode_list.components
+package com.shub39.plumbus.info.presentation.episode.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

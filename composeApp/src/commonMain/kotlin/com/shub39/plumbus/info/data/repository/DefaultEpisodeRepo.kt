@@ -26,6 +26,30 @@ class DefaultEpisodeRepo(
             }
     }
 
+    override suspend fun getSingleEpisode(url: String): Result<Episode, DataError.Remote> {
+       val daoResult = episodeDao.getEpisode(url)
+
+       return if (daoResult != null) {
+           Result.Success(daoResult.toEpisode())
+       } else {
+           remoteDataSource.getSingleEpisode(url).map { it.toEpisode() }.also {
+               if (it is Result.Success) {
+                   episodeDao.upsertEpisode(it.data.toEpisodeEntity())
+               }
+           }
+       }
+    }
+
+    override suspend fun getEpisode(id: Int): Result<Episode, DataError.Local> {
+        val daoResult = episodeDao.getEpisode(id)
+
+        return if (daoResult != null) {
+            Result.Success(daoResult.toEpisode())
+        } else {
+            Result.Error(DataError.Local.NOT_FOUND)
+        }
+    }
+
     override fun getEpisodes(): Flow<List<Episode>> {
         return episodeDao
             .getEpisodes()

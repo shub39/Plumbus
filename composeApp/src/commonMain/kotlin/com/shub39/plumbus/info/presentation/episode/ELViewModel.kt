@@ -1,15 +1,16 @@
-package com.shub39.plumbus.info.presentation.character_list
+package com.shub39.plumbus.info.presentation.episode
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shub39.plumbus.core.domain.onError
 import com.shub39.plumbus.core.domain.onSuccess
 import com.shub39.plumbus.core.presentation.toUiText
-import com.shub39.plumbus.info.domain.CharacterRepo
+import com.shub39.plumbus.info.domain.EpisodeRepo
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
@@ -20,17 +21,17 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-// character list view model
-class CLViewModel(
-    private val dataSource: CharacterRepo
-) : ViewModel() {
+// episode list viewmodel
+class ELViewModel(
+    private val dataSource: EpisodeRepo
+): ViewModel() {
 
     private var searchJob: Job? = null
     private var savedJob: Job? = null
     private var favsJob: Job? = null
 
-    private val _state = MutableStateFlow(CLState())
-    val state = _state
+    private val _state = MutableStateFlow(ELState())
+    val state = _state.asStateFlow()
         .onStart {
             observeSearch()
             observeSaved()
@@ -42,29 +43,37 @@ class CLViewModel(
             _state.value
         )
 
-    fun action(action: CLAction) {
-        when (action) {
-            is CLAction.OnCharacterClick -> {}
-
-            is CLAction.OnSearchQueryChange -> {
-                _state.update {
-                    it.copy(
-                        searchQuery = action.query
-                    )
+    fun action(action: ELAction) {
+        viewModelScope.launch {
+            when(action) {
+                is ELAction.OnEpisodeClick -> {
+                    _state.update {
+                        it.copy(
+                            currentEpisode = action.episode
+                        )
+                    }
                 }
-            }
 
-            is CLAction.OnTabSelected -> {
-                _state.update {
-                    it.copy(
-                        selectIndex = action.index
-                    )
+                is ELAction.OnSearchQueryChange -> {
+                    _state.update {
+                        it.copy(
+                            searchQuery = action.query
+                        )
+                    }
                 }
-            }
 
-            is CLAction.OnSetFav -> {
-                viewModelScope.launch {
-                    dataSource.setFavCharacter(action.id)
+                is ELAction.OnTabSelected -> {
+                    _state.update {
+                        it.copy(
+                            selectIndex = action.index
+                        )
+                    }
+                }
+
+                is ELAction.OnSetFav -> {
+                    viewModelScope.launch {
+                        dataSource.setFavEpisode(action.id)
+                    }
                 }
             }
         }
@@ -86,7 +95,7 @@ class CLViewModel(
 
                     query.length >= 2 -> {
                         searchJob?.cancel()
-                        searchJob = searchCharacter(query)
+                        searchJob = searchEpisode(query)
                     }
                 }
             }
@@ -96,10 +105,10 @@ class CLViewModel(
     private fun observeSaved() {
         savedJob?.cancel()
         savedJob = dataSource
-            .getCharacters()
-            .onEach { characters ->
+            .getEpisodes()
+            .onEach { episodes ->
                 _state.update {
-                    it.copy(saved = characters)
+                    it.copy(saved = episodes)
                 }
             }
             .launchIn(viewModelScope)
@@ -108,30 +117,30 @@ class CLViewModel(
     private fun observeFavs() {
         favsJob?.cancel()
         favsJob = dataSource
-            .getFavCharacters()
-            .onEach { characters ->
+            .getFavEpisodes()
+            .onEach { episodes ->
                 _state.update {
-                    it.copy(favs = characters)
+                    it.copy(favs = episodes)
                 }
             }
             .launchIn(viewModelScope)
     }
 
-    private fun searchCharacter(query: String) = viewModelScope.launch {
+    private fun searchEpisode(query: String) = viewModelScope.launch {
         _state.update { it.copy(isLoading = true) }
 
         dataSource
-            .searchCharacter(query)
+            .searchEpisode(query)
             .onSuccess { searchResults ->
                 _state.update {
                     it.copy(
                         isLoading = false,
                         errorMessage = null,
-                        searchResults = searchResults,
+                        searchResults = searchResults
                     )
                 }
 
-                searchResults.forEach { dataSource.addCharacter(it) }
+                searchResults.forEach { dataSource.addEpisode(it) }
             }
             .onError { searchError ->
                 _state.update {

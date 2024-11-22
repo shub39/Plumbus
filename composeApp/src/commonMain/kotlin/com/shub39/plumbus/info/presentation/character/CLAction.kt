@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.presentation.character_list
+package com.shub39.plumbus.info.presentation.character
 
 import com.shub39.plumbus.info.domain.Character
 

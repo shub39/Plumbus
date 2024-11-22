@@ -8,9 +8,9 @@ import com.shub39.plumbus.info.data.repository.DefaultCharacterRepo
 import com.shub39.plumbus.info.data.repository.DefaultEpisodeRepo
 import com.shub39.plumbus.info.data.repository.DefaultLocationRepo
 import com.shub39.plumbus.info.domain.CharacterRepo
-import com.shub39.plumbus.info.presentation.character_list.CLViewModel
-import com.shub39.plumbus.info.presentation.episode_list.ELViewModel
-import com.shub39.plumbus.info.presentation.location_list.LLViewModel
+import com.shub39.plumbus.info.presentation.character.CLViewModel
+import com.shub39.plumbus.info.presentation.episode.ELViewModel
+import com.shub39.plumbus.info.presentation.location.LLViewModel
 import com.shub39.plumbus.info.data.database.DatabaseFactory
 import com.shub39.plumbus.info.data.database.PlumbusDb
 import com.shub39.plumbus.info.domain.EpisodeRepo
@@ -25,6 +25,7 @@ expect val platformModule: Module
 
 val sharedModule = module {
     // database and httpclient
+    singleOf(::KtorRemoteDataSource).bind<RemoteDataSource>()
     single { HttpClientFactory.create( get() ) }
     single {
         get<DatabaseFactory>()
@@ -42,7 +43,6 @@ val sharedModule = module {
     viewModelOf(::LLViewModel)
 
     // repositories
-    singleOf(::KtorRemoteDataSource).bind<RemoteDataSource>()
     singleOf(::DefaultCharacterRepo).bind<CharacterRepo>()
     singleOf(::DefaultEpisodeRepo).bind<EpisodeRepo>()
     singleOf(::DefaultLocationRepo).bind<LocationRepo>()

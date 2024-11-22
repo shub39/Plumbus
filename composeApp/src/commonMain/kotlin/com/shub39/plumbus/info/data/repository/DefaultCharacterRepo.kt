@@ -26,6 +26,30 @@ class DefaultCharacterRepo(
             }
     }
 
+    override suspend fun getSingleCharacter(url: String): Result<Character, DataError.Remote> {
+        val daoResult = characterDao.getCharacter(url)
+
+        return if (daoResult != null) {
+            Result.Success(daoResult.toCharacter())
+        } else {
+            remoteDataSource.getSingleCharacter(url).map { it.toCharacter() }.also {
+                if (it is Result.Success) {
+                    characterDao.upsertCharacter(it.data.toCharacterEntity())
+                }
+            }
+        }
+    }
+
+    override suspend fun getCharacter(id: Int): Result<Character, DataError.Local> {
+        val daoResult = characterDao.getCharacter(id)
+
+        return if (daoResult != null) {
+            Result.Success(daoResult.toCharacter())
+        } else {
+            Result.Error(DataError.Local.NOT_FOUND)
+        }
+    }
+
     override fun getCharacters(): Flow<List<Character>> {
         return characterDao
             .getCharacters()

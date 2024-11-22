@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.presentation.character_list.component
+package com.shub39.plumbus.info.presentation.location.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,17 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.shub39.plumbus.info.domain.Character
+import com.shub39.plumbus.info.domain.Location
 
-// characters list
 @Composable
-fun CharacterList(
-    characters: List<Character>,
-    onCharacterClick: (Character) -> Unit,
-    onCharacterFav: (Character) -> Unit,
+fun LocationsList(
+    locations: List<Location>,
+    onLocationClick: (Location) -> Unit,
+    onLocationFav: (Location) -> Unit,
     favAvailable: Boolean = true,
     lazyListState: LazyListState = rememberLazyListState(),
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(
         state = lazyListState,
@@ -31,11 +30,11 @@ fun CharacterList(
         horizontalAlignment = Alignment.CenterHorizontally,
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
-        items(characters, key = { it.id }) { character ->
-            CLItem(
-                character = character,
-                onClick = { onCharacterClick(character) },
-                onFav = { onCharacterFav(character) },
+        items(locations, key = { it.id }) { location ->
+            LLItem(
+                location = location,
+                onClick = { onLocationClick(location) },
+                onFav = { onLocationFav(location) },
                 favAvailable = favAvailable
             )
         }

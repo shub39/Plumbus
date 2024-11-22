@@ -1,4 +1,4 @@
-package com.shub39.plumbus.info.presentation.episode_list
+package com.shub39.plumbus.info.presentation.episode
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,9 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.shub39.plumbus.info.domain.Episode
 import com.shub39.plumbus.info.presentation.components.GeneralSearchBar
-import com.shub39.plumbus.info.presentation.episode_list.components.EpisodeList
+import com.shub39.plumbus.info.presentation.episode.components.EpisodeList
 import org.jetbrains.compose.resources.stringResource
 import plumbus.composeapp.generated.resources.Res
 import plumbus.composeapp.generated.resources.no_results
@@ -37,7 +36,7 @@ import plumbus.composeapp.generated.resources.search_results
 fun ELScreen(
     state: ELState,
     action: (ELAction) -> Unit,
-    onNavigate: (Episode) -> Unit
+    onNavigate: () -> Unit
 ) {
     val pagerState = rememberPagerState { 2 }
     val searchListState = rememberLazyListState()
@@ -157,7 +156,7 @@ fun ELScreen(
                                                 lazyListState = searchListState,
                                                 onEpisodeClick = {
                                                     action(ELAction.OnEpisodeClick(it))
-                                                    onNavigate(it)
+                                                    onNavigate()
                                                 },
                                                 onEpisodeFav = {
                                                     action(ELAction.OnSetFav(it.id))
@@ -184,7 +183,7 @@ fun ELScreen(
                                         lazyListState = savedListState,
                                         onEpisodeClick = {
                                             action(ELAction.OnEpisodeClick(it))
-                                            onNavigate(it)
+                                            onNavigate()
                                         },
                                         onEpisodeFav = {
                                           action(ELAction.OnSetFav(it.id))

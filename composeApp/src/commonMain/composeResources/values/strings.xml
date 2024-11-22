@@ -5,6 +5,7 @@
     <string name="saved">Saved</string>
     <string name="favorites">Favorites</string>
     <string name="no_favorites">No Favorites</string>
+    <string name="not_found">Not Found</string>
     <string name="no_results">No Results</string>
     <string name="no_saved">Nothing Saved</string>
     <string name="home">Home</string>
@@ -16,4 +17,6 @@
     <string name="character">Character</string>
     <string name="episodes">Episodes</string>
     <string name="locations">Locations</string>
+    <string name="origin">Origin</string>
+    <string name="last_location">Last seen at</string>
 </resources>

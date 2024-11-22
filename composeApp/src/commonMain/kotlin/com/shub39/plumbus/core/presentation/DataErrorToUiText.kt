@@ -5,6 +5,7 @@ import plumbus.composeapp.generated.resources.Res
 import plumbus.composeapp.generated.resources.disk_full
 import plumbus.composeapp.generated.resources.no_internet
 import plumbus.composeapp.generated.resources.no_results
+import plumbus.composeapp.generated.resources.not_found
 import plumbus.composeapp.generated.resources.server_error
 import plumbus.composeapp.generated.resources.too_many_requests
 import plumbus.composeapp.generated.resources.unknown
@@ -20,6 +21,7 @@ fun DataError.toUiText(): UiText {
         DataError.Remote.SERIALIZATION -> Res.string.unknown
         DataError.Remote.UNKNOWN -> Res.string.unknown
         DataError.Remote.NO_RESULTS -> Res.string.no_results
+        DataError.Local.NOT_FOUND -> Res.string.not_found
     }
 
     return UiText.StringResourceId(stringRes)
