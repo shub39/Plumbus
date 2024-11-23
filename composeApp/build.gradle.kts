@@ -97,7 +97,7 @@ android {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "src/androidMain/proguard-rules.pro"
             )
         }
         debug {
@@ -112,7 +112,7 @@ android {
             versionNameSuffix = "-beta"
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "src/androidMain/proguard-rules.pro"
             )
         }
     }
@@ -138,9 +138,34 @@ compose.desktop {
         mainClass = "com.shub39.plumbus.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.AppImage)
             packageName = "com.shub39.plumbus"
             packageVersion = version
+
+            linux {
+                iconFile.set(rootProject.file("fastlane/metadata/android/en-US/images/icon.png"))
+                appRelease = version
+            }
         }
+
+        buildTypes.release {
+            proguard {
+                isEnabled = false
+            }
+        }
+    }
+}
+
+tasks {
+    register("packageWindows") {
+        dependsOn("packageMsi")
+    }
+
+    register("packageMacOS") {
+        dependsOn("packageDmg")
+    }
+
+    register("packageLinux") {
+        dependsOn("packageReleaseAppImage")
     }
 }
