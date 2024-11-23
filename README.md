@@ -33,7 +33,8 @@
 > Download and Install [Latest Release](https://github.com/shub39/Plumbus/releases)
 
 > ### Desktop
-> Haven't figured it out yet 😃.
+> Its way more complicated than I initially thought, decided it's not worth the effort.
+> 
 > You can still check out the dektop version by importing this project on Android Studio and and running `./gradlew run` in the terminal 
 
 ## Tech Stack 🛠️
