@@ -186,7 +186,7 @@ fun CharacterScreen(
                     )
             )
 
-            // the main page
+            // the main content
             LazyColumn(
                 modifier = Modifier
                     .padding(top = 64.dp, start = 16.dp, end = 16.dp)

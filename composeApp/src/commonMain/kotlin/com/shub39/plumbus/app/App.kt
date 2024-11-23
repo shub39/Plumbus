@@ -3,7 +3,6 @@ package com.shub39.plumbus.app
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -13,7 +12,9 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.shub39.plumbus.core.presentation.PlumbusTheme
 import com.shub39.plumbus.info.presentation.CharacterScreen
+import com.shub39.plumbus.info.presentation.EpisodeScreen
 import com.shub39.plumbus.info.presentation.HomePage
+import com.shub39.plumbus.info.presentation.LocationScreen
 import com.shub39.plumbus.info.presentation.character.CLAction
 import com.shub39.plumbus.info.presentation.character.CLScreen
 import com.shub39.plumbus.info.presentation.character.CLViewModel
@@ -78,22 +79,25 @@ fun App(
                                 clvm.action(CLAction.OnCharacterClick(character))
 
                                 navController.navigate(Route.CharacterDetail) {
+                                    popUpTo(Route.HomePage) { saveState = true }
                                     launchSingleTop = true
                                 }
                             },
                             onEpisodeClick = { episode ->
                                 elvm.action(ELAction.OnEpisodeClick(episode))
 
-//                                navController.navigate(Route.EpisodeDetail) {
-//                                    launchSingleTop = true
-//                                }
+                                navController.navigate(Route.EpisodeDetail) {
+                                    popUpTo(Route.HomePage) { saveState = true }
+                                    launchSingleTop = true
+                                }
                             },
                             onLocationClick = { location ->
                                 llvm.action(LLAction.OnLocationClick(location))
 
-//                                navController.navigate(Route.LocationDetail) {
-//                                    launchSingleTop = true
-//                                }
+                                navController.navigate(Route.LocationDetail) {
+                                    popUpTo(Route.HomePage) { saveState = true }
+                                    launchSingleTop = true
+                                }
                             }
                         )
                     }
@@ -106,6 +110,7 @@ fun App(
                             onAction = clvm::action,
                             onNavigate = {
                                 navController.navigate(Route.CharacterDetail) {
+                                    popUpTo(Route.CharacterList) { saveState = true }
                                     launchSingleTop = true
                                 }
                             }
@@ -119,9 +124,10 @@ fun App(
                             state = elState,
                             action = elvm::action,
                             onNavigate = {
-//                                navController.navigate(Route.EpisodeDetail) {
-//                                    launchSingleTop = true
-//                                }
+                                navController.navigate(Route.EpisodeDetail) {
+                                    popUpTo(Route.EpisodeList) { saveState = true }
+                                    launchSingleTop = true
+                                }
                             }
                         )
                     }
@@ -133,9 +139,10 @@ fun App(
                             state = llState,
                             action = llvm::action,
                             onNavigate = {
-//                                navController.navigate(Route.LocationDetail) {
-//                                    launchSingleTop = true
-//                                }
+                                navController.navigate(Route.LocationDetail) {
+                                    popUpTo(Route.LocationList) { saveState = true }
+                                    launchSingleTop = true
+                                }
                             }
                         )
                     }
@@ -147,21 +154,49 @@ fun App(
                             onBack = { navController.navigateUp() },
                             onEpisodeClick = {
                                 elvm.action(ELAction.OnEpisodeClick(it))
-//                                navController.navigate(Route.EpisodeDetail)
+                                navController.navigate(Route.EpisodeDetail) {
+                                    popUpTo(Route.HomePage) { saveState = true }
+                                    launchSingleTop = true
+                                }
                             },
                             onLocationClick = {
                                 llvm.action(LLAction.OnLocationClick(it))
-//                                navController.navigate(Route.LocationDetail)
+                                navController.navigate(Route.LocationDetail) {
+                                    popUpTo(Route.HomePage) { saveState = true }
+                                    launchSingleTop = true
+                                }
                             }
                         )
                     }
 
                     composable<Route.EpisodeDetail> {
-                        Text("Episode Detail")
+                        EpisodeScreen(
+                            state = elState,
+                            action = elvm::action,
+                            onCharacterClick = {
+                                clvm.action(CLAction.OnCharacterClick(it))
+                                navController.navigate(Route.CharacterDetail) {
+                                    popUpTo(Route.HomePage) { saveState = true }
+                                    launchSingleTop = true
+                                }
+                            },
+                            onBack = { navController.navigateUp() }
+                        )
                     }
 
                     composable<Route.LocationDetail> {
-                        Text("Location Detail")
+                        LocationScreen(
+                            state = llState,
+                            action = llvm::action,
+                            onCharacterClick = {
+                                clvm.action(CLAction.OnCharacterClick(it))
+                                navController.navigate(Route.CharacterDetail) {
+                                    popUpTo(Route.HomePage) { saveState = true }
+                                    launchSingleTop = true
+                                }
+                            },
+                            onBack = { navController.navigateUp() }
+                        )
                     }
                 }
             }

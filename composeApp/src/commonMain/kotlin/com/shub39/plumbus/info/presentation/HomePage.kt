@@ -23,7 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,7 +58,7 @@ fun HomePage(
         "Location"
     )
 
-    var selectedItem by remember { mutableStateOf(options[0]) }
+    var selectedItem by rememberSaveable { mutableStateOf(options[0]) }
     val listState = rememberLazyListState()
 
     LaunchedEffect(selectedItem) {

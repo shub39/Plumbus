@@ -49,6 +49,7 @@ fun BottomBar(
                     onClick = {
                         if (currentRoute != route) {
                             navController.navigate(route) {
+                                popUpTo(Route.PlumbusGraph) { saveState = true }
                                 launchSingleTop = true
                             }
                         }
