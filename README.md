@@ -33,10 +33,16 @@
 - Compose Multiplatform for Shared UI and App logic 🧑‍💻
 - Koin for dependency Injection 💉
 - Ktor for making Http requests 🌐
+- MVI + Clean architecture
 - Kotlinx Serialization for Json parsing 📄
 - [LandScapist](https://github.com/skydoves/landscapist) for Images 🌆
 - Room for Local Databse 📊
 - Kotlin Coroutines 🌴
+
+## What's Planned? 🗓️
+- [ ] Add a way to view browsing history. Like how deep you are in the rabbit hole
+- [ ] Add a way to allow users to contribute information to the api. This could help the database to stay up to date as it is two seasons behind :(
+- [ ] Add settings and Info pages
 
 ## Thanks 🙏
 
