@@ -16,11 +16,10 @@
 
 ## Screenshots 📱
 
-| ![1](fastlane/metadata/android/en-US/images/phoneScreenshots/1.png) | ![2](fastlane/metadata/android/en-US/images/phoneScreenshots/2.png) |
-|:-------------------------------------------------------------------:|:-------------------------------------------------------------------:|
-| ![3](fastlane/metadata/android/en-US/images/phoneScreenshots/3.png) | ![6](fastlane/metadata/android/en-US/images/phoneScreenshots/4.png) |
-| ![4](fastlane/metadata/android/en-US/images/phoneScreenshots/5.png) | ![7](fastlane/metadata/android/en-US/images/phoneScreenshots/6.png) |
-| ![5](fastlane/metadata/android/en-US/images/phoneScreenshots/7.png) | ![8](fastlane/metadata/android/en-US/images/phoneScreenshots/8.png) |
+| ![1](fastlane/metadata/android/en-US/images/phoneScreenshots/1.png) | ![2](fastlane/metadata/android/en-US/images/phoneScreenshots/2.png) | ![3](fastlane/metadata/android/en-US/images/phoneScreenshots/3.png) | ![6](fastlane/metadata/android/en-US/images/phoneScreenshots/4.png) |
+|:-------------------------------------------------------------------:|:-------------------------------------------------------------------:|:-------------------------------------------------------------------:|:-------------------------------------------------------------------:|
+| ![4](fastlane/metadata/android/en-US/images/phoneScreenshots/5.png) | ![7](fastlane/metadata/android/en-US/images/phoneScreenshots/6.png) | ![5](fastlane/metadata/android/en-US/images/phoneScreenshots/7.png) | ![8](fastlane/metadata/android/en-US/images/phoneScreenshots/8.png) |
+
 
 ## Thanks 🙏
 
@@ -33,9 +32,7 @@
 > Download and Install [Latest Release](https://github.com/shub39/Plumbus/releases)
 
 > ### Desktop
-> Its way more complicated than I initially thought, decided it's not worth the effort.
-> 
-> You can still check out the dektop version by importing this project on Android Studio and and running `./gradlew run` in the terminal 
+> You can check out the dektop version by importing this project on Android Studio and and running `./gradlew run` in the terminal 
 
 ## Tech Stack 🛠️
 

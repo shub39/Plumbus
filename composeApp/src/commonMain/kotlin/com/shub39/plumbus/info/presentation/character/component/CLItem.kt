@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -73,9 +74,9 @@ fun CLItem(
                 loading = {
                     ShimmerContainer(
                         modifier = Modifier.align(Alignment.Center),
-                        shimmer = Shimmer.Flash(
-                            baseColor = MaterialTheme.colorScheme.surface,
-                            highlightColor = MaterialTheme.colorScheme.primary
+                        shimmer = Shimmer.Resonate(
+                            baseColor = CardDefaults.cardColors().containerColor,
+                            highlightColor = CardDefaults.cardColors().contentColor
                         )
                     )
                 },
