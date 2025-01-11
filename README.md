@@ -20,12 +20,6 @@
 |:-------------------------------------------------------------------:|:-------------------------------------------------------------------:|:-------------------------------------------------------------------:|:-------------------------------------------------------------------:|
 | ![4](fastlane/metadata/android/en-US/images/phoneScreenshots/5.png) | ![7](fastlane/metadata/android/en-US/images/phoneScreenshots/6.png) | ![5](fastlane/metadata/android/en-US/images/phoneScreenshots/7.png) | ![8](fastlane/metadata/android/en-US/images/phoneScreenshots/8.png) |
 
-
-## Thanks 🙏
-
-- Rick and Morty [API](https://rickandmortyapi.com/)
-- [JetBrains](https://www.jetbrains.com/compose-multiplatform/) for such an amazing framework and IDEs 
-
 ## Try Out 🔧
 
 > ### Android 
@@ -40,6 +34,11 @@
 - Koin for dependency Injection 💉
 - Ktor for making Http requests 🌐
 - Kotlinx Serialization for Json parsing 📄
-- [LandScapist]() for Images 🌆
+- [LandScapist](https://github.com/skydoves/landscapist) for Images 🌆
 - Room for Local Databse 📊
 - Kotlin Coroutines 🌴
+
+## Thanks 🙏
+
+- Rick and Morty [API](https://rickandmortyapi.com/)
+- [JetBrains](https://www.jetbrains.com/compose-multiplatform/) for such an amazing framework and IDEs
