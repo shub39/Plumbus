@@ -1,5 +1,6 @@
 import org.gradle.api.JavaVersion.VERSION_17
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.compose.reload.ComposeHotRun
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -11,11 +12,12 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.hotreload)
 }
 
 val appName = "Plumbus"
-val version = "1.0.0"
-val versionCode = 1
+val appVersion = "1.0.0"
+val appVersionCode = 1
 
 kotlin {
     androidTarget {
@@ -51,7 +53,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-
+            implementation(libs.material.icons.core)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.jetbrains.compose.navigation)
@@ -61,7 +63,6 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             api(libs.koin.core)
-
             implementation(libs.bundles.ktor)
             implementation(libs.landscapist.coil3)
             implementation(libs.landscapist.placeholder)
@@ -84,8 +85,8 @@ android {
         applicationId = "com.shub39.plumbus"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = version
+        versionCode = appVersionCode
+        versionName = appVersion
     }
     packaging {
         resources {
@@ -140,11 +141,11 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.AppImage)
             packageName = "com.shub39.plumbus"
-            packageVersion = version
+            packageVersion = appVersion
 
             linux {
                 iconFile.set(rootProject.file("fastlane/metadata/android/en-US/images/icon.png"))
-                appRelease = version
+                appRelease = appVersion
             }
         }
 
@@ -154,6 +155,10 @@ compose.desktop {
             }
         }
     }
+}
+
+tasks.register<ComposeHotRun>("runHot") {
+    mainClass.set("com.shub39.plumbus.MainKt")
 }
 
 tasks {

@@ -1,21 +1,23 @@
 [versions]
-agp = "8.5.2"
+agp = "8.10.0"
 android-compileSdk = "35"
 android-minSdk = "24"
-android-targetSdk = "34"
-androidx-activityCompose = "1.9.3"
+android-targetSdk = "35"
+androidx-activityCompose = "1.10.1"
 androidx-lifecycle = "2.8.4"
-compose-multiplatform = "1.7.1"
-kotlin = "2.1.0"
-kotlinx-coroutines = "1.9.0"
+compose-multiplatform = "1.8.0"
+kotlin = "2.1.20"
+kotlinx-coroutines = "1.10.2"
 landscapistCoil = "2.4.2"
 navigationCompose = "2.8.0-alpha10"
-kotlinSerialization = "1.7.3"
-koin = "4.0.0"
-ktor = "3.0.1"
-ksp = "2.1.0-1.0.29"
-sqlite = "2.5.0-alpha12"
-room = "2.7.0-alpha12"
+kotlinSerialization = "1.8.1"
+koin = "4.0.1"
+ktor = "3.0.3"
+ksp = "2.1.20-2.0.0"
+sqlite = "2.5.1"
+room = "2.7.1"
+hotreload = "1.0.0-alpha09"
+materialIconsCore = "1.7.3"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -44,6 +46,7 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 landscapist-coil3 = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapistCoil" }
 landscapist-placeholder = { module = "com.github.skydoves:landscapist-placeholder", version.ref = "landscapistCoil" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "materialIconsCore" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -53,6 +56,7 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hotreload = { id = "org.jetbrains.compose.hot-reload", version.ref = "hotreload" }
 room = { id = "androidx.room", version.ref = "room" }
 
 [bundles]
